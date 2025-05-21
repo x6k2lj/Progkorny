@@ -1,12 +1,17 @@
 package progkorny.boatrentalweb01.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Boat {
 
-    @Id private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String brand;
     private String model;
     private int buildYear;
@@ -17,99 +22,13 @@ public class Boat {
 
     public Boat() {}
 
+    // Getters & Setters
 
-
-    private Boat(Builder builder) {
-        this.id = builder.id;
-        this.brand = builder.brand;
-        this.model = builder.model;
-        this.buildYear = builder.buildYear;
-        this.licensePlate = builder.licensePlate;
-        this.rentalPricePerDay = builder.rentalPricePerDay;
-        this.available = builder.available;
-        this.numberOfSeats = builder.numberOfSeats;
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private int id;
-        private String brand;
-        private String model;
-        private int buildYear;
-        private String licensePlate;
-        private double rentalPricePerDay;
-        private boolean available;
-        private int numberOfSeats;
-
-        // private Builder() {}
-
-        public Builder id(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder brand(String brand) {
-            this.brand = brand;
-            return this;
-        }
-
-        public Builder model(String model) {
-            this.model = model;
-            return this;
-        }
-
-        public Builder buildYear(int buildYear) {
-            this.buildYear = buildYear;
-            return this;
-        }
-
-        public Builder licensePlate(String licensePlate) {
-            this.licensePlate = licensePlate;
-            return this;
-        }
-
-        public Builder rentalPricePerDay(double rentalPricePerDay) {
-            this.rentalPricePerDay = rentalPricePerDay;
-            return this;
-        }
-
-        public Builder available(boolean available) {
-            this.available = available;
-            return this;
-        }
-
-        public Builder numberOfSeats(int numberOfSeats) {
-            this.numberOfSeats = numberOfSeats;
-            return this;
-        }
-
-        public Boat build() {
-            return new Boat(this);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Boat{" +
-                "id=" + id +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", buildYear=" + buildYear +
-                ", licensePlate='" + licensePlate + '\'' +
-                ", rentalPricePerDay=" + rentalPricePerDay +
-                ", available=" + available +
-                ", numberOfSeats=" + numberOfSeats +
-                '}';
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
