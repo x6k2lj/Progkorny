@@ -45,6 +45,13 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -53,23 +60,14 @@
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
-				</configuration>
-				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<resources>
-				<resource>
-					<directory>src/main/resources</directory>
-					<filtering>false</filtering>
-				</resource>
-			</resources>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-
 	</build>
 
 	<distributionManagement>
