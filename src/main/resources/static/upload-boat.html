@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8" />
+    <title>Hajó feltöltése</title>
+</head>
+<body>
+
+<h2>Hajó feltöltése</h2>
+<label for="boatName">Név:</label>
+<input type="text" id="boatName" />
+<br/>
+<label for="boatType">Típus:</label>
+<input type="text" id="boatType" />
+<br/>
+<label for="boatLength">Hossz (m):</label>
+<input type="number" id="boatLength" />
+<br/>
+<button onclick="uploadBoat()">Feltöltés</button>
+<p id="uploadResult"></p>
+
+<script>
+    const apiBase = "http://localhost:9090/api/Boat";
+
+    async function uploadBoat() {
+        const boat = {
+            name: document.getElementById("boatName").value,
+            type: document.getElementById("boatType").value,
+            length: parseFloat(document.getElementById("boatLength").value)
+        };
+
+        try {
+            const response = await fetch(apiBase, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(boat)
+            });
+
+            if (response.ok) {
+                document.getElementById("uploadResult").textContent = "Hajó sikeresen feltöltve.";
+            } else {
+                document.getElementById("uploadResult").textContent = "Hiba a hajó feltöltése során: " + response.status;
+            }
+        } catch (error) {
+            document.getElementById("uploadResult").textContent = "Hiba: " + error;
+        }
+    }
+</script>
+
+</body>
+</html>

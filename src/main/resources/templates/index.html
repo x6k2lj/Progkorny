@@ -2,39 +2,17 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8" />
-    <title>Boat törlés és feltöltés</title>
+    <title>Menü</title>
 </head>
 <body>
 
-<h2>Hajók törlése</h2>
-<label for="deleteId">Hajó ID törléshez:</label>
-<input type="number" id="deleteId" value="1" />
-<button onclick="deleteBoat()">Törlés</button>
-<p id="deleteResult"></p>
+<h1>Hajókezelő Menürendszer</h1>
 
-ITT
-<script>
-    const apiBase = "http://localhost:9090/api/Boat";
+<ul>
+    <li><a href="/delete-boat.html">Hajó törlése</a></li>
+    <li><a href="/upload-boat.html">Hajó feltöltése</a></li>
+    <li><a href="/upload-renter.html">Bérlő feltöltése</a></li>
+</ul>
 
-    async function deleteBoat() {
-        const id = document.getElementById("deleteId").value;
-        try {
-            const response = await fetch(`${apiBase}/delete/${id}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
-                const text = await response.text();
-                document.getElementById("deleteResult").textContent = text;
-            } else {
-                document.getElementById("deleteResult").textContent = "Hiba a törlés során: " + response.status;
-            }
-        } catch (error) {
-            document.getElementById("deleteResult").textContent = "Hiba: " + error;
-        }
-    }
-
-  
-</script>
-
-</body>
+</bodysrc>
 </html>
