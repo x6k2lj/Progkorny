@@ -53,6 +53,8 @@
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
+				</configuration>
+				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
