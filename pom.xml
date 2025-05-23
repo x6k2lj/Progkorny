@@ -60,7 +60,7 @@
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
-					<encoding>ISO-8859-2</encoding>
+					<encoding>ISO-8859-1</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
