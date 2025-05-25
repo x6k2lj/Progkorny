@@ -11,62 +11,54 @@ import java.util.Optional;
 @Service
 public class BoatServiceWithArrayList {
 
-    private List<Boat> Boats = new ArrayList<>(List.of(
-            createBoat(1, true, "tal001", "Fregatt", "Long", 1992, 5, 4000),
-            createBoat(2, true, "ABV016", "Szélvész", "long", 1984, 4, 4000),
-            createBoat(3, false, "DSH906", "Hadi", "Dandár", 1989, 5, 4000)
+    private List<Boat> boats = new ArrayList<>(List.of(
+            createBoat(1L, "Fregatt", 1992.0),
+            createBoat(2L, "Szélvész", 1984.0),
+            createBoat(3L, "Hadi", 1989.0)
     ));
 
-    private Boat createBoat(int id, boolean available, String licensePlate, String brand, String model, int buildYear, int numberOfSeats, double rentalPricePerDay) {
+    private Boat createBoat(Long id, String name, double length) {
         Boat boat = new Boat();
-        boat.setId((long) id);
-        boat.setAvailable(available);
-        boat.setLicensePlate(licensePlate);
-        boat.setBrand(brand);
-        boat.setModel(model);
-        boat.setBuildYear(buildYear);
-        boat.setNumberOfSeats(numberOfSeats);
-        boat.setRentalPricePerDay(rentalPricePerDay);
+        boat.setId(id);
+        boat.setName(name);
+        boat.setLength(length);
+        // További mezőket is állíthatsz itt, ha szükséges:
+        boat.setBrand("Ismeretlen");
+        boat.setModel("Alap");
+        boat.setBuildYear(2000);
+        boat.setDailyRate(100.0);
+        boat.setAvailable(true);
+        boat.setNumberOfSeats(4);
         return boat;
     }
 
     public List<Boat> getAllBoat() {
-        return Boats;
+        return boats;
     }
 
-    public Boat getBoatById(int id) {
-        Optional<Boat> optionalBoat = Boats.stream()
-                .filter(boat -> boat.getId() == id)
-                .findFirst();
-        if (optionalBoat.isPresent()) {
-            return optionalBoat.get();
-        } else {
-            throw new NosuchEntityException("There is no Boat with id:" + id);
-        }
+    public Boat getBoatById(Long id) {
+        return boats.stream()
+                .filter(boat -> boat.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NosuchEntityException("There is no Boat with id: " + id));
     }
 
     public int insertOrUpdateBoat(Boat boat) {
-        Optional<Boat> existingBoat = Boats.stream()
-                .filter(b -> b.getId() == boat.getId())
-                .findFirst();
-
-        if (existingBoat.isPresent()) {
-            Boats.remove(existingBoat.get());
-        }
-        Boats.add(boat);
-        return Boats.size();
+        boats.removeIf(b -> b.getId().equals(boat.getId()));
+        boats.add(boat);
+        return boats.size();
     }
 
-    public boolean deleteBoatById(int id) {
-        Optional<Boat> boatToDelete = Boats.stream()
-                .filter(b -> b.getId() == id)
+    public boolean deleteBoatById(Long id) {
+        Optional<Boat> boatToDelete = boats.stream()
+                .filter(b -> b.getId().equals(id))
                 .findFirst();
 
         if (boatToDelete.isPresent()) {
-            Boats.remove(boatToDelete.get());
+            boats.remove(boatToDelete.get());
             return true;
         } else {
-            throw new NosuchEntityException("There is no Boat to delete with id:" + id);
+            throw new NosuchEntityException("There is no Boat to delete with id: " + id);
         }
     }
 }

@@ -2,18 +2,20 @@ DROP TABLE IF EXISTS rental_event;
 DROP TABLE IF EXISTS boat;
 DROP TABLE IF EXISTS customer;
 
-CREATE TABLE boat
-(
-    id                   INT              NOT NULL,
-    brand                VARCHAR(255),
-    model                VARCHAR(255),
-    build_year           INT              NOT NULL,
-    license_plate        VARCHAR(255),
-    rental_price_per_day DOUBLE PRECISION NOT NULL,
-    available            BOOLEAN          NOT NULL,
-    number_of_seats      INT              NOT NULL,
-    CONSTRAINT pk_boat PRIMARY KEY (id)
+CREATE TABLE boat (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  brand VARCHAR(255),
+  length DOUBLE NOT NULL,
+  model VARCHAR(255),
+  build_year INT NOT NULL,
+  daily_rate DOUBLE PRECISION NOT NULL,
+  available BOOLEAN NOT NULL,
+  number_of_seats INT NOT NULL,
+  version BIGINT NOT NULL default 0,
+  CONSTRAINT pk_boat PRIMARY KEY (id)
 );
+
 
 CREATE TABLE customer
 (
@@ -30,17 +32,13 @@ CREATE TABLE customer
 CREATE TABLE rental_event
 (
     id                 INT              NOT NULL,
-    boat_rented_id      INT,
-    rental_customer_id INT,
-    rental_date        date,
-    return_date        date,
-    total_cost         DOUBLE PRECISION NOT NULL,
-    is_closed          BOOLEAN          NOT NULL,
-    CONSTRAINT pk_rentalevent PRIMARY KEY (id)
+    boat_rented_id      BIGINT,
+    rental_customer_id  INT,
+    rental_date         DATE,
+    return_date         DATE,
+    total_cost          DOUBLE PRECISION NOT NULL,
+    is_closed           BOOLEAN          NOT NULL,
+    CONSTRAINT pk_rental_event PRIMARY KEY (id),
+    CONSTRAINT fk_boat FOREIGN KEY (boat_rented_id) REFERENCES boat(id),
+    CONSTRAINT fk_customer FOREIGN KEY (rental_customer_id) REFERENCES customer(id)
 );
-
-ALTER TABLE rental_event
-    ADD CONSTRAINT FK_RENTALEVENT_ON_boat_RENTED FOREIGN KEY (boat_rented_id) REFERENCES boat (id);
-
-ALTER TABLE rental_event
-    ADD CONSTRAINT FK_RENTALEVENT_ON_RENTAL_CUSTOMER FOREIGN KEY (rental_customer_id) REFERENCES customer (id);

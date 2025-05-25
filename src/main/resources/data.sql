@@ -1,11 +1,11 @@
-INSERT INTO boat(id,brand,model,build_year,license_plate,rental_price_per_day,available,number_of_seats)
-VALUES (1,'Fregatt','naszád',1985,'ABV016',2000.0,1,4);
+INSERT INTO boat(name, brand, length, model, build_year, daily_rate, available, number_of_seats, version)
+VALUES ('Naszád1', 'Fregatt', 1111, 'ModelA', 1985, 2000.0, TRUE, 4, 0);
 
-INSERT INTO boat(id,brand,model,build_year,license_plate,rental_price_per_day,available,number_of_seats)
-VALUES (2,'Vitorlás','Favorit',1989,'DSH096',2000.0,0,5);
+INSERT INTO boat(name, brand, length, model, build_year, daily_rate, available, number_of_seats, version)
+VALUES ('Naszád2', 'Vitorlás', 1111, 'ModelB', 1989, 2000.0, FALSE, 5, 0);
 
-INSERT INTO boat(id,brand,model,build_year,license_plate,rental_price_per_day,available,number_of_seats)
-VALUES (3,'Hadi','Hordozó',1993,'EEF257',4000.0,0,4);
+INSERT INTO boat(name, brand, length, model, build_year, daily_rate, available, number_of_seats, version)
+VALUES ('Naszád3', 'Hadi', 1111, 'ModelC', 1993, 4000.0, FALSE, 4, 0);
 
-INSERT INTO boat(id,brand,model,build_year,license_plate,rental_price_per_day,available,number_of_seats)
-VALUES (4,'Hadi','Hordozó',1993,'EEF257',4000.0,0,4);
+INSERT INTO boat(name, brand, length, model, build_year, daily_rate, available, number_of_seats, version)
+VALUES ('Naszád4', 'Hadi', 1111, 'ModelD', 1995, 4000.0, TRUE, 6, 0);
