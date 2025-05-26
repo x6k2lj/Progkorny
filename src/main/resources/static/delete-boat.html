@@ -16,7 +16,7 @@
 <p id="deleteResult"></p>
 
 <script>
-    const apiBase = "http://localhost:9090/api/boat";
+    const apiBase = "http://localhost:9090/api/boats";
 
     async function deleteBoat() {
         const id = document.getElementById("deleteId").value;
@@ -28,26 +28,23 @@
         }
 
         try {
-            const response = await fetch(`${apiBase}/delete`, {
-                method: 'POST', // vagy 'DELETE', ha a szerver támogatja JSON body-val
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: parseInt(id) }) // csak id-t küldünk
+            const response = await fetch(`${apiBase}/${id}`, {
+                method: 'DELETE'
             });
 
             if (response.ok) {
-                const text = await response.text();
-                resultElement.textContent = `Siker: ${text}`;
+                resultElement.textContent = "Hajó sikeresen törölve.";
+            } else if (response.status === 404) {
+                resultElement.textContent = "Nem található ilyen ID-jű hajó.";
             } else {
-                const err = await response.text();
-                resultElement.textContent = `Hiba (${response.status}): ${err}`;
+                resultElement.textContent = `Hiba a törlés során: ${response.status}`;
             }
         } catch (error) {
             resultElement.textContent = `Hiba: ${error}`;
         }
     }
 </script>
+
 
 </body>
 </html>
