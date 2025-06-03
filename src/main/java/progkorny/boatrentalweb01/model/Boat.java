@@ -2,44 +2,57 @@ package progkorny.boatrentalweb01.model;
 
 import jakarta.persistence.*;
 
+// Ez az osztály a "boat" nevű adatbázistáblát reprezentálja.
+// Az @Entity jelzi, hogy ez egy JPA entitás.
 @Entity
-@Table(name = "boat")
+@Table(name = "boat") // Megadja, hogy az osztály a "boat" táblához tartozik.
 public class Boat {
 
+    // Az elsődleges kulcs (id), amelyet az adatbázis generál automatikusan (AUTO_INCREMENT).
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // A hajó neve nem lehet null.
     @Column(nullable = false)
     private String name;
 
+    // A hajó márkája (nem kötelező mező).
     private String brand;
 
+    // A hajó hossza (méterben), kötelező mező.
     @Column(nullable = false)
     private double length;
 
+    // A hajó modellje (nem kötelező mező).
     private String model;
 
+    // Építési év, az adatbázisban külön megnevezett oszlopnévvel (build_year).
     @Column(name = "build_year", nullable = false)
     private int buildYear;
 
+    // Napi bérlési díj, kötelező mező, adatbázisban
     @Column(name = "daily_rate", nullable = false)
     private double dailyRate;
 
+    // Elérhetőség jelzése (pl. bérelhető-e jelenleg).
     @Column(nullable = false)
     private boolean available;
 
+    // Ülések száma, kötelező mező.
     @Column(name = "number_of_seats", nullable = false)
     private int numberOfSeats;
 
-   @Version
-   private Integer version;
+    // Optimista zároláshoz használt verziómező.
+    // Ha más is módosítja az adatot, akkor kivétel dobódik mentéskor.
+    @Version
+    private Integer version;
 
-    // Alapértelmezett konstruktor
+    // Üres konstruktor a JPA számára.
     public Boat() {
     }
 
-    // Teljes konstruktor
+    // Teljes konstruktor, amely minden kötelező mezőt inicializál.
     public Boat(String name, String brand, double length, String model, int buildYear,
                 double dailyRate, boolean available, int numberOfSeats) {
         this.name = name;
@@ -52,7 +65,7 @@ public class Boat {
         this.numberOfSeats = numberOfSeats;
     }
 
-    // Getterek
+    // Getter metódusok – az osztály mezőinek lekérdezésére szolgálnak.
     public Long getId() {
         return id;
     }
@@ -90,10 +103,10 @@ public class Boat {
     }
 
     public Integer getVersion() {
-       return version;
+        return version;
     }
 
-    // Setterek
+    // Setter metódusok – az osztály mezőinek beállítására szolgálnak.
     public void setId(Long id) {
         this.id = id;
     }

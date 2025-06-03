@@ -1,43 +1,54 @@
 package progkorny.boatrentalweb01.controller;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import progkorny.boatrentalweb01.model.Customer;
 import progkorny.boatrentalweb01.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-@RestController()
+// Ez az osztály egy REST API vezérlő (controller), amely az ügyfelek kezeléséért felel.
+// Az URL-ek a "/api/customers" útvonalon keresztül érhetők el.
+@RestController
 @RequestMapping("api/customers")
 public class CustomerRESTController {
-
+    // A customerService példányt a Spring automatikusan injektálja (feltéve, hogy létezik bean).
     @Autowired
     private CustomerService customerService;
-
-    @GetMapping()
-    public List<Customer> getAllCustomers()
-    {return
-            customerService
-                    .getAllCustomers();
+    // GET /api/customers
+    // Visszaadja az összes ügyfelet egy listában.
+    @GetMapping
+    public List<Customer> getAllCustomers() {
+        return customerService.getAllCustomers();
     }
-
+    // GET /api/customers/{id}
+    // Egy adott ügyfél lekérdezése azonosító (id) alapján.
+    // Ha nincs ilyen ügyfél, akkor 404 Not Found választ ad.
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable int id) {
-        return customerService.getCustomerById(id);
+    public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
+        Customer customer = customerService.getCustomerById(id);
+        if(customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(customer);
     }
-
-
-    @PostMapping()
+    // POST /api/customers
+    // Új ügyfél létrehozása, vagy meglévő frissítése.
+    // A kérés törzse egy JSON objektum, amit a Customer típusra konvertál a Spring.
+    @PostMapping
     public Customer putCustomerIntoDb(@RequestBody Customer cust) {
-        Customer answer = customerService.insertOrUpdateCustomer(cust);
-        return answer;
+        return customerService.insertOrUpdateCustomer(cust);
     }
-
+    // DELETE /api/customers/{id}
+    // Ügyfél törlése azonosító alapján.
+    // Sikeres törlés esetén visszaad egy szöveges választ → 200 OK
+    // Ha nem található, akkor → 404 Not Found
     @DeleteMapping("/{id}")
-    public String deleteCustomerById( @PathVariable int id) {
-        if(customerService.deleteCustomerById(id)) return "customer with id " +id+ " is deleted"; else return "no customer is deleted";
+    public ResponseEntity<String> deleteCustomerById(@PathVariable int id) {
+        if(customerService.deleteCustomerById(id)) {
+            return ResponseEntity.ok("customer with id " + id + " is deleted");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-
 }
-
